@@ -1,3 +1,4 @@
+import Bishop from "../Pieces/Bishop/Bishop";
 import Knight from "../Pieces/Knight/Knight";
 import Pawn from "../Pieces/Pawn/Pawn";
 import Queen from "../Pieces/Queen/Queen";
@@ -19,6 +20,8 @@ const ChessPiece = ({ coloredChessPiece }: ChessPieceProps) => {
       return <Queen color={color as PieceColor} />;
     case "Knight":
       return <Knight color={color as PieceColor} />;
+    case "Bishop":
+      return <Bishop color={color as PieceColor} />;
     default:
       return <></>;
   }
