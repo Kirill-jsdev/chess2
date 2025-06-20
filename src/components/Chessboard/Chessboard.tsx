@@ -7,7 +7,7 @@ const Chessboard = () => {
     const col = i % 8;
     const isBlack = (row + col) % 2 === 1;
     const position = `${String.fromCharCode(97 + col)}${8 - row}` as Position;
-    squares.push(<Square key={i} color={isBlack ? "#739552" : "#ebecd0"} position={position} chessPiece="Bishop-White" />);
+    squares.push(<Square key={i} color={isBlack ? "#739552" : "#ebecd0"} position={position} chessPiece="King-White" />);
   }
   return <div style={{ display: "grid", gridTemplateColumns: "repeat(8, 25px)", gridTemplateRows: "repeat(8, 25px)" }}>{squares}</div>;
 };
