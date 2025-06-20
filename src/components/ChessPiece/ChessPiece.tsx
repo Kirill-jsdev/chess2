@@ -1,4 +1,5 @@
 import Pawn from "../Pieces/Pawn/Pawn";
+import Queen from "../Pieces/Queen/Queen";
 
 export type PieceColor = "White" | "Black";
 export type ChessPieceName = "King" | "Queen" | "Rook" | "Bishop" | "Knight" | "Pawn";
@@ -13,6 +14,8 @@ const ChessPiece = ({ coloredChessPiece }: ChessPieceProps) => {
   switch (pieceType) {
     case "Pawn":
       return <Pawn color={color as PieceColor} />;
+    case "Queen":
+      return <Queen color={color as PieceColor} />;
     default:
       return <></>;
   }
