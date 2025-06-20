@@ -3,6 +3,7 @@ import King from "../Pieces/King/King";
 import Knight from "../Pieces/Knight/Knight";
 import Pawn from "../Pieces/Pawn/Pawn";
 import Queen from "../Pieces/Queen/Queen";
+import Rook from "../Pieces/Rook/Rook";
 
 export type PieceColor = "White" | "Black";
 export type ChessPieceName = "King" | "Queen" | "Rook" | "Bishop" | "Knight" | "Pawn";
@@ -25,6 +26,8 @@ const ChessPiece = ({ coloredChessPiece }: ChessPieceProps) => {
       return <Bishop color={color as PieceColor} />;
     case "King":
       return <King color={color as PieceColor} />;
+    case "Rook":
+      return <Rook color={color as PieceColor} />;
     default:
       return <></>;
   }
