@@ -1,3 +1,5 @@
+import { useAppDispatch } from "../../store";
+import { select } from "../../store/slices/chessboardSlice";
 import Bishop from "../Pieces/Bishop/Bishop";
 import King from "../Pieces/King/King";
 import Knight from "../Pieces/Knight/Knight";
@@ -7,23 +9,39 @@ import Rook from "../Pieces/Rook/Rook";
 import type { ChessPieceProps } from "../types/types";
 
 const ChessPiece = ({ coloredChessPiece, position }: ChessPieceProps) => {
+  const dispatch = useAppDispatch();
+
   const [pieceType] = coloredChessPiece?.split("-") || [];
+
+  let piece = <></>;
+
+  const onClick = () => {
+    dispatch(select(position));
+  };
   switch (pieceType) {
     case "Pawn":
-      return <Pawn coloredChessPiece={coloredChessPiece} position={position} />;
+      piece = <Pawn coloredChessPiece={coloredChessPiece} position={position} />;
+      break;
     case "Queen":
-      return <Queen coloredChessPiece={coloredChessPiece} position={position} />;
+      piece = <Queen coloredChessPiece={coloredChessPiece} position={position} />;
+      break;
     case "Knight":
-      return <Knight coloredChessPiece={coloredChessPiece} position={position} />;
+      piece = <Knight coloredChessPiece={coloredChessPiece} position={position} />;
+      break;
     case "Bishop":
-      return <Bishop coloredChessPiece={coloredChessPiece} position={position} />;
+      piece = <Bishop coloredChessPiece={coloredChessPiece} position={position} />;
+      break;
     case "King":
-      return <King coloredChessPiece={coloredChessPiece} position={position} />;
+      piece = <King coloredChessPiece={coloredChessPiece} position={position} />;
+      break;
     case "Rook":
-      return <Rook coloredChessPiece={coloredChessPiece} position={position} />;
+      piece = <Rook coloredChessPiece={coloredChessPiece} position={position} />;
+      break;
     default:
-      return <></>;
+      piece = <></>;
   }
+
+  return <div onClick={onClick}>{piece}</div>;
 };
 
 export default ChessPiece;
