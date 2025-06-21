@@ -18,6 +18,8 @@ export const STARTING_POSITION: BoardState = {
   g2: "Pawn-White",
   h2: "Pawn-White",
 
+  e3: "Queen-Black",
+
   // Black pieces
   a8: "Rook-Black",
   b8: "Knight-Black",
