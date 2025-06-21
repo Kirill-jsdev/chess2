@@ -8,12 +8,8 @@ type SquareProps = {
 };
 
 const Square = ({ color, position, chessPiece }: SquareProps) => {
-  const onSquareClick = () => {
-    alert(`Square clicked: ${position}`);
-  };
-
   return (
-    <div style={{ backgroundColor: color }} onClick={onSquareClick}>
+    <div style={{ backgroundColor: color }}>
       <ChessPiece coloredChessPiece={chessPiece} position={position} />
     </div>
   );

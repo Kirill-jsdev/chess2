@@ -6,9 +6,12 @@ const Pawn = ({ coloredChessPiece, position }: ChessPieceProps) => {
   const [, color] = coloredChessPiece!.split("-") || [];
 
   const Pawn = color === "White" ? WhitePawn : BlackPawn;
-  console.log(position);
 
-  return <img src={Pawn} alt="Black Pawn" style={{ width: "100%", height: "100%" }} />;
+  const onClick = () => {
+    alert(`Pawn clicked at position: ${position}`);
+  };
+
+  return <img src={Pawn} alt="Black Pawn" style={{ width: "100%", height: "100%" }} onClick={onClick} />;
 };
 
 export default Pawn;
