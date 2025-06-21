@@ -1,18 +1,65 @@
-import { createSlice } from "@reduxjs/toolkit";
-import type { Position } from "../../components/Square/Square";
-import type { ChessPieceColored } from "../../components/ChessPiece/ChessPiece";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { STARTING_POSITION } from "../../utils/startingPosition";
+import type { BoardState, ChessPieceColored, PieceColor, Position } from "../../components/types/types";
+
+type PieceOnBoard = {
+  piece: ChessPieceColored;
+  position: Position;
+  availableMoves: Position[];
+};
 
 type ChessboardSlice = {
-  startingPosition: Record<Position, ChessPieceColored>;
+  board: BoardState;
+  currentTurn: PieceColor;
+  selectedPiece: PieceOnBoard | null;
 };
 
 const initialState: ChessboardSlice = {
-  startingPosition: STARTING_POSITION,
+  board: STARTING_POSITION,
+  currentTurn: "White",
+  selectedPiece: null,
 };
 
 export const chessboardSlice = createSlice({
   name: "chessboard",
   initialState,
-  reducers: {},
+  reducers: {
+    move: (state, action: PayloadAction<{ oldPosition: Position; newPosition: Position }>) => {
+      const { oldPosition, newPosition } = action.payload;
+      const piece = state.board[oldPosition];
+      delete state.board[oldPosition];
+      state.board[newPosition] = piece;
+      state.selectedPiece = null;
+      state.currentTurn = state.currentTurn === "White" ? "Black" : "White";
+    },
+    select: (state, action: PayloadAction<{ position: Position; availableMoves: Position[] }>) => {
+      const { position, availableMoves } = action.payload;
+
+      // Check if the position has a piece
+      if (!state.board[position]) {
+        return state;
+      }
+
+      // Check if it's the player's turn
+      const color = state.board[position].split("-")[1] as PieceColor;
+      if (color !== state.currentTurn) {
+        state.selectedPiece = null;
+        return state; // Not the player's turn
+      }
+
+      // If a piece is already selected, deselect it
+      if (state.selectedPiece && state.selectedPiece.position === position) {
+        state.selectedPiece = null;
+        return state;
+      }
+
+      state.selectedPiece = {
+        piece: state.board[position],
+        position: position,
+        availableMoves: availableMoves,
+      };
+    },
+  },
 });
+
+export const { move, select } = chessboardSlice.actions;

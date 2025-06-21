@@ -6,9 +6,11 @@ const Rook = ({ coloredChessPiece, position }: ChessPieceProps) => {
   const [, color] = coloredChessPiece!.split("-") || [];
 
   const Rook = color === "White" ? WhiteRook : BlacRook;
-  console.log(position);
+  const onClick = () => {
+    alert(`Pawn clicked at position: ${position}`);
+  };
 
-  return <img src={Rook} alt="Black Bishop" style={{ width: "100%", height: "100%" }} />;
+  return <img src={Rook} alt="Black Bishop" style={{ width: "100%", height: "100%" }} onClick={onClick} />;
 };
 
 export default Rook;

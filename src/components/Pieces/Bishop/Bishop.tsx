@@ -6,8 +6,10 @@ const Bishop = ({ coloredChessPiece, position }: ChessPieceProps) => {
   const [, color] = coloredChessPiece!.split("-") || [];
   const Bishop = color === "White" ? WhiteBishop : BlackBishop;
 
-  console.log(`Bishop clicked at position: ${position}`);
-  return <img src={Bishop} alt="Black Bishop" style={{ width: "100%", height: "100%" }} />;
+  const onClick = () => {
+    console.log(`Pawn clicked at position: ${position}`);
+  };
+  return <img src={Bishop} alt="Black Bishop" style={{ width: "100%", height: "100%" }} onClick={onClick} />;
 };
 
 export default Bishop;

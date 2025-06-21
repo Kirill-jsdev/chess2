@@ -1,7 +1,6 @@
-import type { ChessPieceColored } from "../components/ChessPiece/ChessPiece";
-import type { Position } from "../components/Square/Square";
+import type { BoardState } from "../components/types/types";
 
-export const STARTING_POSITION: Record<Position, ChessPieceColored> = {
+export const STARTING_POSITION: BoardState = {
   a1: "Rook-White",
   b1: "Knight-White",
   c1: "Bishop-White",
@@ -18,6 +17,8 @@ export const STARTING_POSITION: Record<Position, ChessPieceColored> = {
   f2: "Pawn-White",
   g2: "Pawn-White",
   h2: "Pawn-White",
+
+  e3: "Queen-Black",
 
   // Black pieces
   a8: "Rook-Black",
