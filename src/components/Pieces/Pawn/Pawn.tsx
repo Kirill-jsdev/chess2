@@ -13,8 +13,6 @@ const Pawn = ({ coloredChessPiece, position }: ChessPieceProps) => {
 
   const onClick = () => {
     dispatch(select({ position, availableMoves: getPawnMoves(position, color as "White" | "Black", board) }));
-
-    console.log(getPawnMoves(position, color as "White" | "Black", board));
   };
 
   return <img src={Pawn} alt="Black Pawn" style={{ width: "100%", height: "100%" }} onClick={onClick} />;
