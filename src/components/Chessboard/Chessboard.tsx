@@ -1,17 +1,19 @@
+import type { ChessPieceColored } from "../ChessPiece/ChessPiece";
 import Square, { type Position } from "../Square/Square";
 
 type ChessboardProps = {
+  startingPosition: Record<Position, ChessPieceColored>;
   squareSize?: string; //in css units, e.g., "25px"
 };
 
-const Chessboard = ({ squareSize = "25px" }: ChessboardProps) => {
+const Chessboard = ({ startingPosition, squareSize = "25px" }: ChessboardProps) => {
   const squares = [];
   for (let i = 0; i < 64; i++) {
     const row = Math.floor(i / 8);
     const col = i % 8;
     const isBlack = (row + col) % 2 === 1;
     const position = `${String.fromCharCode(97 + col)}${8 - row}` as Position;
-    squares.push(<Square key={i} color={isBlack ? "#739552" : "#ebecd0"} position={position} chessPiece="Rook-White" />);
+    squares.push(<Square key={i} color={isBlack ? "#739552" : "#ebecd0"} position={position} chessPiece={startingPosition[position]} />);
   }
   return (
     <div style={{ display: "grid", gridTemplateColumns: `repeat(8, ${squareSize})`, gridTemplateRows: `repeat(8, ${squareSize})` }}>
