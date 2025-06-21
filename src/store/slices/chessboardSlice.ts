@@ -5,20 +5,19 @@ import type { BoardState, ChessPieceColored, PieceColor, Position } from "../../
 type PieceOnBoard = {
   piece: ChessPieceColored;
   position: Position;
+  availableMoves: Position[];
 };
 
 type ChessboardSlice = {
   board: BoardState;
   currentTurn: PieceColor;
   selectedPiece: PieceOnBoard | null;
-  availableMoves: Position[];
 };
 
 const initialState: ChessboardSlice = {
   board: STARTING_POSITION,
   currentTurn: "White",
   selectedPiece: null,
-  availableMoves: [],
 };
 
 export const chessboardSlice = createSlice({
@@ -31,8 +30,8 @@ export const chessboardSlice = createSlice({
       delete state.board[oldPosition];
       state.board[newPosition] = piece;
     },
-    select: (state, action: PayloadAction<Position>) => {
-      const position = action.payload;
+    select: (state, action: PayloadAction<{ position: Position; availableMoves: Position[] }>) => {
+      const { position, availableMoves } = action.payload;
 
       // Check if the position has a piece
       if (!state.board[position]) {
@@ -42,6 +41,7 @@ export const chessboardSlice = createSlice({
       // Check if it's the player's turn
       const color = state.board[position].split("-")[1] as PieceColor;
       if (color !== state.currentTurn) {
+        state.selectedPiece = null;
         return state; // Not the player's turn
       }
 
@@ -54,6 +54,7 @@ export const chessboardSlice = createSlice({
       state.selectedPiece = {
         piece: state.board[position],
         position: position,
+        availableMoves: availableMoves,
       };
     },
   },

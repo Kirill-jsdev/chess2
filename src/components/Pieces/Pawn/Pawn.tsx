@@ -1,16 +1,20 @@
 import BlackPawn from "../../../assets/Bpawn.svg";
 import WhitePawn from "../../../assets/Wpawn.svg";
-import { useAppSelector } from "../../../store";
+import { useAppDispatch, useAppSelector } from "../../../store";
+import { select } from "../../../store/slices/chessboardSlice";
 import type { BoardState, ChessPieceProps, Position } from "../../types/types";
 
 const Pawn = ({ coloredChessPiece, position }: ChessPieceProps) => {
-  const sss = useAppSelector((state) => state.chessboard.board);
+  const dispatch = useAppDispatch();
+  const board = useAppSelector((state) => state.chessboard.board);
   const [, color] = coloredChessPiece!.split("-") || [];
 
   const Pawn = color === "White" ? WhitePawn : BlackPawn;
 
   const onClick = () => {
-    console.log(getPawnMoves(position, color as "White" | "Black", sss));
+    dispatch(select({ position, availableMoves: getPawnMoves(position, color as "White" | "Black", board) }));
+
+    console.log(getPawnMoves(position, color as "White" | "Black", board));
   };
 
   return <img src={Pawn} alt="Black Pawn" style={{ width: "100%", height: "100%" }} onClick={onClick} />;
