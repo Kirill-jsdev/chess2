@@ -1,13 +1,13 @@
 import BlackKnight from "../../../assets/Bknight.svg";
 import WhiteKnight from "../../../assets/Wknight.svg";
-import type { PieceColor } from "../../ChessPiece/ChessPiece";
+import type { ChessPieceProps } from "../../types/types";
 
-type PawnProps = {
-  color: PieceColor;
-};
+const Knight = ({ coloredChessPiece, position }: ChessPieceProps) => {
+  const [, color] = coloredChessPiece!.split("-") || [];
 
-const Knight = ({ color }: PawnProps) => {
   const Knight = color === "White" ? WhiteKnight : BlackKnight;
+  console.log(position);
+
   return <img src={Knight} alt="Black Pawn" style={{ width: "100%", height: "100%" }} />;
 };
 

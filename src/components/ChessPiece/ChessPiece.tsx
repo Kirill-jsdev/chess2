@@ -4,30 +4,23 @@ import Knight from "../Pieces/Knight/Knight";
 import Pawn from "../Pieces/Pawn/Pawn";
 import Queen from "../Pieces/Queen/Queen";
 import Rook from "../Pieces/Rook/Rook";
+import type { ChessPieceProps } from "../types/types";
 
-export type PieceColor = "White" | "Black";
-export type ChessPieceName = "King" | "Queen" | "Rook" | "Bishop" | "Knight" | "Pawn";
-export type ChessPieceColored = `${ChessPieceName}-${"White" | "Black"}`;
-
-type ChessPieceProps = {
-  coloredChessPiece?: ChessPieceColored;
-};
-
-const ChessPiece = ({ coloredChessPiece }: ChessPieceProps) => {
-  const [pieceType, color] = coloredChessPiece?.split("-") || [];
+const ChessPiece = ({ coloredChessPiece, position }: ChessPieceProps) => {
+  const [pieceType] = coloredChessPiece?.split("-") || [];
   switch (pieceType) {
     case "Pawn":
-      return <Pawn color={color as PieceColor} />;
+      return <Pawn coloredChessPiece={coloredChessPiece} position={position} />;
     case "Queen":
-      return <Queen color={color as PieceColor} />;
+      return <Queen coloredChessPiece={coloredChessPiece} position={position} />;
     case "Knight":
-      return <Knight color={color as PieceColor} />;
+      return <Knight coloredChessPiece={coloredChessPiece} position={position} />;
     case "Bishop":
-      return <Bishop color={color as PieceColor} />;
+      return <Bishop coloredChessPiece={coloredChessPiece} position={position} />;
     case "King":
-      return <King color={color as PieceColor} />;
+      return <King coloredChessPiece={coloredChessPiece} position={position} />;
     case "Rook":
-      return <Rook color={color as PieceColor} />;
+      return <Rook coloredChessPiece={coloredChessPiece} position={position} />;
     default:
       return <></>;
   }

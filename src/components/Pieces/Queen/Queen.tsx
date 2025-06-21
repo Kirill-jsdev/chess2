@@ -1,13 +1,13 @@
 import BlackQueen from "../../../assets/Bqueen.svg";
 import WhiteQueen from "../../../assets/Wqueen.svg";
-import type { PieceColor } from "../../ChessPiece/ChessPiece";
+import type { ChessPieceProps } from "../../types/types";
 
-type PawnProps = {
-  color: PieceColor;
-};
+const Queen = ({ coloredChessPiece, position }: ChessPieceProps) => {
+  const [, color] = coloredChessPiece!.split("-") || [];
 
-const Queen = ({ color }: PawnProps) => {
   const Queen = color === "White" ? WhiteQueen : BlackQueen;
+  console.log(position);
+
   return <img src={Queen} alt="Black Pawn" style={{ width: "100%", height: "100%" }} />;
 };
 

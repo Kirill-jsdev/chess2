@@ -1,5 +1,5 @@
-import type { ChessPieceColored } from "../ChessPiece/ChessPiece";
-import Square, { type Position } from "../Square/Square";
+import Square from "../Square/Square";
+import type { ChessPieceColored, Position } from "../types/types";
 
 type ChessboardProps = {
   startingPosition: Record<Position, ChessPieceColored>;

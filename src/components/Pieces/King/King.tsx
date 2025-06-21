@@ -1,13 +1,12 @@
 import BlackKing from "../../../assets/Bking.svg";
 import WhiteKing from "../../../assets/Wking.svg";
-import type { PieceColor } from "../../ChessPiece/ChessPiece";
+import type { ChessPieceProps } from "../../types/types";
 
-type PawnProps = {
-  color: PieceColor;
-};
+const King = ({ coloredChessPiece, position }: ChessPieceProps) => {
+  const [, color] = coloredChessPiece!.split("-") || [];
 
-const King = ({ color }: PawnProps) => {
   const King = color === "White" ? WhiteKing : BlackKing;
+  console.log(`King clicked at position: ${position}`);
   return <img src={King} alt="Black Bishop" style={{ width: "100%", height: "100%" }} />;
 };
 
