@@ -29,6 +29,8 @@ export const chessboardSlice = createSlice({
       const piece = state.board[oldPosition];
       delete state.board[oldPosition];
       state.board[newPosition] = piece;
+      state.selectedPiece = null;
+      state.currentTurn = state.currentTurn === "White" ? "Black" : "White";
     },
     select: (state, action: PayloadAction<{ position: Position; availableMoves: Position[] }>) => {
       const { position, availableMoves } = action.payload;

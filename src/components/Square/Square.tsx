@@ -1,4 +1,5 @@
-import { useAppSelector } from "../../store";
+import { useAppDispatch, useAppSelector } from "../../store";
+import { move } from "../../store/slices/chessboardSlice";
 import ChessPiece from "../ChessPiece/ChessPiece";
 import type { ChessPieceColored, Position } from "../types/types";
 
@@ -9,6 +10,7 @@ type SquareProps = {
 };
 
 const Square = ({ color, position, chessPiece }: SquareProps) => {
+  const dispatch = useAppDispatch();
   const { position: selectedPosition, availableMoves } = useAppSelector((state) => state.chessboard.selectedPiece) || {};
   const board = useAppSelector((store) => store.chessboard.board);
 
@@ -19,8 +21,13 @@ const Square = ({ color, position, chessPiece }: SquareProps) => {
 
   const isCaptureSquare = availableMoves?.includes(position) && board[position];
 
+  const onClick = () => {
+    if (!availableSquare) return;
+    dispatch(move({ oldPosition: selectedPosition!, newPosition: position }));
+  };
+
   return (
-    <div style={{ backgroundColor: backgroundColor, display: "grid", placeItems: "center", position: "relative" }}>
+    <div style={{ backgroundColor: backgroundColor, display: "grid", placeItems: "center", position: "relative" }} onClick={onClick}>
       <ChessPiece coloredChessPiece={chessPiece} position={position} />
       {availableSquare && !isCaptureSquare && (
         <div style={{ width: "33%", height: "33%", borderRadius: "50%", backgroundColor: "#000", opacity: ".2" }}></div>
