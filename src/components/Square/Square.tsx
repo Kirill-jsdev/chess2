@@ -11,7 +11,8 @@ type SquareProps = {
 const Square = ({ color, position, chessPiece }: SquareProps) => {
   const selectedPiece = useAppSelector((state) => state.chessboard.selectedPiece);
 
-  const backgroundColor = selectedPiece && selectedPiece.position === position ? "#f5f682" : color;
+  const selecteBaxkgroundColor = color === "#739552" ? "#b9ca43" : "#f5f682";
+  const backgroundColor = selectedPiece && selectedPiece.position === position ? selecteBaxkgroundColor : color;
 
   return (
     <div style={{ backgroundColor: backgroundColor }}>
