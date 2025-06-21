@@ -1,6 +1,6 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { STARTING_POSITION } from "../../utils/startingPosition";
-import type { ChessPieceColored, PieceColor, Position } from "../../components/types/types";
+import type { BoardState, ChessPieceColored, PieceColor, Position } from "../../components/types/types";
 
 type PieceOnBoard = {
   piece: ChessPieceColored;
@@ -8,14 +8,14 @@ type PieceOnBoard = {
 };
 
 type ChessboardSlice = {
-  startingPosition: Record<Position, ChessPieceColored>;
+  board: BoardState;
   currentTurn: PieceColor;
   selectedPiece: PieceOnBoard | null;
   availableMoves: Position[];
 };
 
 const initialState: ChessboardSlice = {
-  startingPosition: STARTING_POSITION,
+  board: STARTING_POSITION,
   currentTurn: "White",
   selectedPiece: null,
   availableMoves: [],
@@ -27,20 +27,20 @@ export const chessboardSlice = createSlice({
   reducers: {
     move: (state, action: PayloadAction<{ oldPosition: Position; newPosition: Position }>) => {
       const { oldPosition, newPosition } = action.payload;
-      const piece = state.startingPosition[oldPosition];
-      delete state.startingPosition[oldPosition];
-      state.startingPosition[newPosition] = piece;
+      const piece = state.board[oldPosition];
+      delete state.board[oldPosition];
+      state.board[newPosition] = piece;
     },
     select: (state, action: PayloadAction<Position>) => {
       const position = action.payload;
 
       // Check if the position has a piece
-      if (!state.startingPosition[position]) {
+      if (!state.board[position]) {
         return state;
       }
 
       // Check if it's the player's turn
-      const color = state.startingPosition[position].split("-")[1] as PieceColor;
+      const color = state.board[position].split("-")[1] as PieceColor;
       if (color !== state.currentTurn) {
         return state; // Not the player's turn
       }
@@ -52,7 +52,7 @@ export const chessboardSlice = createSlice({
       }
 
       state.selectedPiece = {
-        piece: state.startingPosition[position],
+        piece: state.board[position],
         position: position,
       };
     },

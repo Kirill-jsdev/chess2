@@ -1,3 +1,5 @@
+export type BoardState = Record<Position, ChessPieceColored | undefined>;
+
 export type PieceColor = "White" | "Black";
 export type ChessPieceName = "King" | "Queen" | "Rook" | "Bishop" | "Knight" | "Pawn";
 export type ChessPieceColored = `${ChessPieceName}-${PieceColor}`;

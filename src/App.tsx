@@ -2,9 +2,9 @@ import Chessboard from "./components/Chessboard/Chessboard";
 import { useAppSelector } from "./store";
 
 function App() {
-  const startingPosition = useAppSelector((store) => store.chessboard.startingPosition);
+  const board = useAppSelector((store) => store.chessboard.board);
 
-  return <Chessboard startingPosition={startingPosition} squareSize="30px" />;
+  return <Chessboard board={board} squareSize="30px" />;
 }
 
 export default App;
