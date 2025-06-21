@@ -57,4 +57,4 @@ export const chessboardSlice = createSlice({
   },
 });
 
-export const { move } = chessboardSlice.actions;
+export const { move, select } = chessboardSlice.actions;
