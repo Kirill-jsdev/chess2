@@ -26,7 +26,9 @@ const Square = ({ color, position, chessPiece }: SquareProps) => {
         <div style={{ width: "33%", height: "33%", borderRadius: "50%", backgroundColor: "#000", opacity: ".2" }}></div>
       )}
       {isCaptureSquare && (
-        <div style={{ width: "100%", height: "100%", borderRadius: "50%", backgroundColor: "yellow", position: "absolute" }}></div>
+        <div
+          style={{ width: "100%", height: "100%", borderRadius: "50%", backgroundColor: "#000", position: "absolute", opacity: ".3" }}
+        ></div>
       )}
     </div>
   );
