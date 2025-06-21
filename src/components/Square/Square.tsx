@@ -16,11 +16,10 @@ const Square = ({ color, position, chessPiece }: SquareProps) => {
 
   const availableSquare = availableMoves?.includes(position);
 
-  const finalBgColor = availableSquare ? "lightblue" : backgroundColor;
-
   return (
-    <div style={{ backgroundColor: finalBgColor }}>
+    <div style={{ backgroundColor: backgroundColor, display: "grid", placeItems: "center" }}>
       <ChessPiece coloredChessPiece={chessPiece} position={position} />
+      {availableSquare && <div style={{ width: "33%", height: "33%", borderRadius: "50%", backgroundColor: "#000", opacity: ".2" }}></div>}
     </div>
   );
 };
