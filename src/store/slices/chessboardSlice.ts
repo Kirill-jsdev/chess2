@@ -11,12 +11,14 @@ type ChessboardSlice = {
   startingPosition: Record<Position, ChessPieceColored>;
   currentTurn: PieceColor;
   selectedPiece: PieceOnBoard | null;
+  availableMoves: Position[];
 };
 
 const initialState: ChessboardSlice = {
   startingPosition: STARTING_POSITION,
   currentTurn: "White",
   selectedPiece: null,
+  availableMoves: [],
 };
 
 export const chessboardSlice = createSlice({
