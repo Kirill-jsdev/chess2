@@ -1,13 +1,15 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { STARTING_POSITION } from "../../utils/startingPosition";
-import type { ChessPieceColored, Position } from "../../components/types/types";
+import type { ChessPieceColored, PieceColor, Position } from "../../components/types/types";
 
 type ChessboardSlice = {
   startingPosition: Record<Position, ChessPieceColored>;
+  currentTurn: PieceColor;
 };
 
 const initialState: ChessboardSlice = {
   startingPosition: STARTING_POSITION,
+  currentTurn: "White",
 };
 
 export const chessboardSlice = createSlice({
