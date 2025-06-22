@@ -2,7 +2,8 @@ import BlacRook from "../../../assets/Brook.svg";
 import WhiteRook from "../../../assets/Wrook.svg";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import { select } from "../../../store/slices/chessboardSlice";
-import type { BoardState, ChessPieceProps, Position } from "../../types/types";
+import type { ChessPieceProps } from "../../types/types";
+import { getRookMoves } from "../../logic/getRookMoves";
 
 const Rook = ({ coloredChessPiece, position }: ChessPieceProps) => {
   const dispatch = useAppDispatch();
@@ -17,40 +18,3 @@ const Rook = ({ coloredChessPiece, position }: ChessPieceProps) => {
 };
 
 export default Rook;
-
-//Helper functions
-
-function getRookMoves(position: Position, color: "White" | "Black", board: BoardState): Position[] {
-  const file = position[0]; // 'a' to 'h'
-  const rank = parseInt(position[1]); // 1 to 8
-
-  const moves: Position[] = [];
-  const directions = [
-    [1, 0], // right
-    [-1, 0], // left
-    [0, 1], // up
-    [0, -1], // down
-  ];
-
-  for (const [df, dr] of directions) {
-    let step = 1;
-    while (true) {
-      const newFileCode = file.charCodeAt(0) + df * step;
-      const newRank = rank + dr * step;
-      if (newFileCode < 97 || newFileCode > 104 || newRank < 1 || newRank > 8) break;
-      const newPos = `${String.fromCharCode(newFileCode)}${newRank}` as Position;
-      const target = board[newPos];
-      if (!target) {
-        moves.push(newPos);
-      } else {
-        if (target.split("-")[1] !== color) {
-          moves.push(newPos);
-        }
-        break; // Can't jump over pieces
-      }
-      step++;
-    }
-  }
-
-  return moves;
-}
