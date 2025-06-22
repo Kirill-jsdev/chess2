@@ -30,7 +30,9 @@ export function getKingMoves(position: Position, color: "White" | "Black", board
     }
   }
 
-  return moves.filter((to) => canKingMoveTo(position, to, King, board));
+  const movesNotUnderAttack = moves.filter((to) => canKingMoveTo(position, to, King, board));
+
+  return movesNotUnderAttack;
 }
 
 function canKingMoveTo(from: Position, to: Position, King: ChessPieceColored, board: BoardState): boolean {

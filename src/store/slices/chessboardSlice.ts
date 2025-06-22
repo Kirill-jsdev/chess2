@@ -14,6 +14,7 @@ type ChessboardSlice = {
   currentTurn: PieceColor;
   selectedPiece: PieceOnBoard | null;
   isCheck: boolean;
+  isMate: boolean;
 };
 
 const initialState: ChessboardSlice = {
@@ -21,6 +22,7 @@ const initialState: ChessboardSlice = {
   currentTurn: "White",
   selectedPiece: null,
   isCheck: false,
+  isMate: false,
 };
 
 export const chessboardSlice = createSlice({
