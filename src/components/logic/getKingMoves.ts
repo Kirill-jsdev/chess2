@@ -1,5 +1,5 @@
 import type { BoardState, ChessPieceColored, PieceColor, Position } from "../types/types";
-import { isKingInCheck } from "./isKingInCheck";
+import { getGameStatus } from "./getGameStatus";
 
 export function getKingMoves(position: Position, color: "White" | "Black", board: BoardState): Position[] {
   const file = position[0]; // 'a' to 'h'
@@ -40,5 +40,5 @@ function canKingMoveTo(from: Position, to: Position, King: ChessPieceColored, bo
   delete boardCopy[from];
   boardCopy[to] = King;
   const KingColor = King.split("-")[1] as PieceColor;
-  return !isKingInCheck(KingColor, boardCopy);
+  return getGameStatus(KingColor, boardCopy) !== "check";
 }

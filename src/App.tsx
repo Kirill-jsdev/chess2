@@ -4,7 +4,6 @@ import { reset } from "./store/slices/chessboardSlice";
 
 function App() {
   const board = useAppSelector((store) => store.chessboard.board);
-  const isCheck = useAppSelector((store) => store.chessboard.isCheck);
   const status = useAppSelector((store) => store.chessboard.status);
   const dispatch = useAppDispatch();
 
@@ -18,7 +17,7 @@ function App() {
       <button type="button" onClick={resetBoard}>
         Reset
       </button>
-      {isCheck && <div>CHECK!!!</div>}
+      {status === "check" && <div>CHECK!!!</div>}
       {status === "checkmate" && <div>CHECKMATE!!!</div>}
     </div>
   );

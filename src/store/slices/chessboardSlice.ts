@@ -1,14 +1,8 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { STARTING_POSITION } from "../../utils/startingPosition";
 import type { BoardState, ChessPieceColored, GameStatus, PieceColor, Position } from "../../components/types/types";
-import { isKingInCheck } from "../../components/logic/isKingInCheck";
-import { getKingMoves } from "../../components/logic/getKingMoves";
 
-import { getPawnMoves } from "../../components/logic/getPawnMoves";
-import { getKnightMoves } from "../../components/logic/getKnightMoves";
-import { getBishopMoves } from "../../components/logic/getBishopMoves";
-import { getRookMoves } from "../../components/logic/getRookMoves";
-import { getQueenMoves } from "../../components/logic/getQueenMoves";
+import { getGameStatus } from "../../components/logic/getGameStatus";
 // import { getKingMoves } from "../../components/logic/getKingMoves";
 type PieceOnBoard = {
   piece: ChessPieceColored;
@@ -20,7 +14,6 @@ type ChessboardSlice = {
   board: BoardState;
   currentTurn: PieceColor;
   selectedPiece: PieceOnBoard | null;
-  isCheck: boolean;
   status: GameStatus;
 };
 
@@ -28,7 +21,6 @@ const initialState: ChessboardSlice = {
   board: STARTING_POSITION,
   currentTurn: "White",
   selectedPiece: null,
-  isCheck: false,
   status: "inProgress",
 };
 
@@ -39,66 +31,28 @@ export const chessboardSlice = createSlice({
     move: (state, action: PayloadAction<{ oldPosition: Position; newPosition: Position }>) => {
       const { oldPosition, newPosition } = action.payload;
       const piece = state.board[oldPosition];
+      if (!piece) return; // No piece to move
+
+      const color = piece.split("-")[1] as PieceColor;
+
+      // Simulate the move
+      const simulatedBoard = { ...state.board };
+      delete simulatedBoard[oldPosition];
+      simulatedBoard[newPosition] = piece;
+
+      // Check if own king is in check after the move
+      // (do NOT switch turn yet, check for the moving color)
+      if (getGameStatus(color, simulatedBoard) === "check") {
+        state.selectedPiece = null;
+        return;
+      }
+
+      // Apply the move
       delete state.board[oldPosition];
       state.board[newPosition] = piece;
       state.selectedPiece = null;
-      state.currentTurn = state.currentTurn === "White" ? "Black" : "White";
-      state.isCheck = isKingInCheck(piece?.split("-")[1] === "White" ? "Black" : "White", state.board);
-
-      /////////////
-
-      // Check for checkmate inline
-      //MOVE THIS LOGIC TO SEPARATE FUNCTION
-      const nextColor = state.currentTurn;
-
-      if (state.isCheck) {
-        let hasEscape = false;
-        for (const pos in state.board) {
-          const currPiece = state.board[pos as Position];
-          if (!currPiece) continue;
-          const [type, color] = currPiece.split("-");
-          if (color !== nextColor) continue;
-
-          let moves: Position[] = [];
-          switch (type) {
-            case "Pawn":
-              moves = getPawnMoves(pos as Position, color as PieceColor, state.board);
-              break;
-            case "Knight":
-              moves = getKnightMoves(pos as Position, color as PieceColor, state.board);
-              break;
-            case "Bishop":
-              moves = getBishopMoves(pos as Position, color as PieceColor, state.board);
-              break;
-            case "Rook":
-              moves = getRookMoves(pos as Position, color as PieceColor, state.board);
-              break;
-            case "Queen":
-              moves = getQueenMoves(pos as Position, color as PieceColor, state.board);
-              break;
-            case "King":
-              moves = getKingMoves(pos as Position, color as PieceColor, state.board);
-              break;
-            default:
-              break;
-          }
-
-          for (const move of moves) {
-            const newBoard = { ...state.board, [move]: currPiece };
-            delete newBoard[pos as Position];
-            if (!isKingInCheck(nextColor, newBoard)) {
-              hasEscape = true;
-              break;
-            }
-          }
-          if (hasEscape) break;
-        }
-        state.status = hasEscape ? "check" : "checkmate";
-      } else {
-        state.status = "inProgress";
-      }
-
-      /////////////
+      state.currentTurn = color === "White" ? "Black" : "White";
+      state.status = getGameStatus(state.currentTurn, state.board);
     },
     select: (state, action: PayloadAction<{ position: Position; availableMoves: Position[] }>) => {
       const { position, availableMoves } = action.payload;

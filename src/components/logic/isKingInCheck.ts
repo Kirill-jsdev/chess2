@@ -1,3 +1,6 @@
+//THIS FUNCTION IS NOT USED ANYWHERE CAN BE REMOVED IN THE FUTERE
+//instead getGameStatus is used
+
 import type { BoardState, Position } from "../types/types";
 import { getPawnMoves } from "./getPawnMoves";
 import { getKnightMoves } from "./getKnightMoves";
