@@ -1,8 +1,10 @@
-import type { BoardState, Position } from "../types/types";
+import type { BoardState, ChessPieceColored, PieceColor, Position } from "../types/types";
+import { isKingInCheck } from "./isKingInCheck";
 
 export function getKingMoves(position: Position, color: "White" | "Black", board: BoardState): Position[] {
   const file = position[0]; // 'a' to 'h'
   const rank = parseInt(position[1]); // 1 to 8
+  const King: ChessPieceColored = color === "White" ? "King-White" : "King-Black";
 
   const moves: Position[] = [];
   const directions = [
@@ -28,5 +30,13 @@ export function getKingMoves(position: Position, color: "White" | "Black", board
     }
   }
 
-  return moves;
+  return moves.filter((to) => canKingMoveTo(position, to, King, board));
+}
+
+function canKingMoveTo(from: Position, to: Position, King: ChessPieceColored, board: BoardState): boolean {
+  const boardCopy = { ...board };
+  delete boardCopy[from];
+  boardCopy[to] = King;
+  const KingColor = King.split("-")[1] as PieceColor;
+  return !isKingInCheck(KingColor, boardCopy);
 }

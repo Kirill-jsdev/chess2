@@ -4,7 +4,6 @@ import { getKnightMoves } from "./getKnightMoves";
 import { getBishopMoves } from "./getBishopMoves";
 import { getRookMoves } from "./getRookMoves";
 import { getQueenMoves } from "./getQueenMoves";
-import { getKingMoves } from "./getKingMoves";
 
 export function isKingInCheck(color: "White" | "Black", board: BoardState): boolean {
   // Find the king's position
@@ -42,9 +41,24 @@ export function isKingInCheck(color: "White" | "Black", board: BoardState): bool
       case "Queen":
         moves = getQueenMoves(pos as Position, opponentColor, board);
         break;
-      case "King":
-        moves = getKingMoves(pos as Position, opponentColor, board);
+      case "King": {
+        // Instead of getKingMoves, check adjacent squares, getKingMoves inside uses isKingInCheck and creates a loop
+        const [f, r] = [pos.charCodeAt(0), parseInt(pos[1])];
+        const kingDirs = [
+          [1, 0],
+          [-1, 0],
+          [0, 1],
+          [0, -1],
+          [1, 1],
+          [1, -1],
+          [-1, 1],
+          [-1, -1],
+        ];
+        moves = kingDirs
+          .map(([df, dr]) => `${String.fromCharCode(f + df)}${r + dr}` as Position)
+          .filter((p) => p.length === 2 && p[0] >= "a" && p[0] <= "h" && parseInt(p[1]) >= 1 && parseInt(p[1]) <= 8);
         break;
+      }
       default:
         break;
     }
