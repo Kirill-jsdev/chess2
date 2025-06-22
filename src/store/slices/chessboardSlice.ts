@@ -127,7 +127,10 @@ export const chessboardSlice = createSlice({
         availableMoves: availableMoves,
       };
     },
+    reset: () => {
+      return initialState;
+    },
   },
 });
 
-export const { move, select } = chessboardSlice.actions;
+export const { move, select, reset } = chessboardSlice.actions;
