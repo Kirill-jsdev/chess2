@@ -1,6 +1,7 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { STARTING_POSITION } from "../../utils/startingPosition";
 import type { BoardState, ChessPieceColored, PieceColor, Position } from "../../components/types/types";
+import { isKingInCheck } from "../../components/logic/isKingInCheck";
 
 type PieceOnBoard = {
   piece: ChessPieceColored;
@@ -12,12 +13,14 @@ type ChessboardSlice = {
   board: BoardState;
   currentTurn: PieceColor;
   selectedPiece: PieceOnBoard | null;
+  isCheck: boolean;
 };
 
 const initialState: ChessboardSlice = {
   board: STARTING_POSITION,
   currentTurn: "White",
   selectedPiece: null,
+  isCheck: false,
 };
 
 export const chessboardSlice = createSlice({
@@ -31,6 +34,7 @@ export const chessboardSlice = createSlice({
       state.board[newPosition] = piece;
       state.selectedPiece = null;
       state.currentTurn = state.currentTurn === "White" ? "Black" : "White";
+      state.isCheck = isKingInCheck(piece?.split("-")[1] === "White" ? "Black" : "White", state.board);
     },
     select: (state, action: PayloadAction<{ position: Position; availableMoves: Position[] }>) => {
       const { position, availableMoves } = action.payload;
