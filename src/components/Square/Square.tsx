@@ -1,3 +1,4 @@
+import { socket } from "../../api/socket/socket";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { move } from "../../store/slices/chessboardSlice";
 import ChessPiece from "../ChessPiece/ChessPiece";
@@ -24,6 +25,7 @@ const Square = ({ color, position, chessPiece }: SquareProps) => {
   const onClick = () => {
     if (!availableSquare) return;
     dispatch(move({ oldPosition: selectedPosition!, newPosition: position }));
+    socket.emit("move", { from: selectedPosition!, to: position });
   };
 
   return (
