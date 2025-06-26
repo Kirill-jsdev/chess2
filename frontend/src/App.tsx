@@ -13,7 +13,7 @@ function App() {
 
   return (
     <div style={{ display: "flex" }}>
-      <Chessboard board={board} squareSize="80px" orientation="White" boardSize={10} />
+      <Chessboard board={board} squareSize="80px" orientation="White" />
       <button type="button" onClick={resetBoard}>
         Reset
       </button>
