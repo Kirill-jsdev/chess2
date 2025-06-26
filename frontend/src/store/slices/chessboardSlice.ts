@@ -1,6 +1,6 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { STARTING_POSITION } from "../../utils/startingPosition";
-import type { BoardState, ChessPieceColored, GameStatus, PieceColor, Position } from "../../components/types/types";
+import type { BoardState, ChessPieceColored, Color, GameStatus, Position } from "../../components/types/types";
 
 import { getGameStatus } from "../../components/logic/getGameStatus";
 // import { getKingMoves } from "../../components/logic/getKingMoves";
@@ -12,13 +12,15 @@ type PieceOnBoard = {
 
 type ChessboardSlice = {
   board: BoardState;
-  currentTurn: PieceColor;
+  orientation: Color;
+  currentTurn: Color;
   selectedPiece: PieceOnBoard | null;
   status: GameStatus;
 };
 
 const initialState: ChessboardSlice = {
   board: STARTING_POSITION,
+  orientation: "White",
   currentTurn: "White",
   selectedPiece: null,
   status: "inProgress",
@@ -33,7 +35,7 @@ export const chessboardSlice = createSlice({
       const piece = state.board[oldPosition];
       if (!piece) return; // No piece to move
 
-      const color = piece.split("-")[1] as PieceColor;
+      const color = piece.split("-")[1] as Color;
 
       // Simulate the move
       const simulatedBoard = { ...state.board };
@@ -63,7 +65,7 @@ export const chessboardSlice = createSlice({
       if (!state.board[position]) return state;
 
       // Check if it's the player's turn
-      const color = state.board[position].split("-")[1] as PieceColor;
+      const color = state.board[position].split("-")[1] as Color;
       if (color !== state.currentTurn) {
         state.selectedPiece = null;
         return state; // Not the player's turn

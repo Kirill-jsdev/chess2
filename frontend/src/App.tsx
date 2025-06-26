@@ -1,4 +1,3 @@
-import { socket } from "./api/socket/socket";
 import Chessboard from "./components/Chessboard/Chessboard";
 import { useAppDispatch, useAppSelector } from "./store";
 import { reset } from "./store/slices/chessboardSlice";

@@ -1,4 +1,4 @@
-import type { BoardState, PieceColor, Position, GameStatus } from "../types/types";
+import type { BoardState, Color, Position, GameStatus } from "../types/types";
 import { getPawnMoves } from "./getPawnMoves";
 import { getKnightMoves } from "./getKnightMoves";
 import { getBishopMoves } from "./getBishopMoves";
@@ -6,7 +6,7 @@ import { getRookMoves } from "./getRookMoves";
 import { getQueenMoves } from "./getQueenMoves";
 import { getKingMoves } from "./getKingMoves";
 
-export function getGameStatus(color: PieceColor, board: BoardState): GameStatus {
+export function getGameStatus(color: Color, board: BoardState): GameStatus {
   // 1. Find king position
   let kingPosition: Position | null = null;
   for (const pos in board) {
