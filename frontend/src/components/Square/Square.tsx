@@ -23,6 +23,7 @@ const Square = ({ color, position, chessPiece }: SquareProps) => {
   const isCaptureSquare = availableMoves?.includes(position) && board[position];
 
   const onClick = () => {
+    console.log(position);
     if (!availableSquare) return;
     dispatch(move({ oldPosition: selectedPosition!, newPosition: position }));
     socket.emit("move", { from: selectedPosition!, to: position });
