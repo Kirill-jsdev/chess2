@@ -17,7 +17,7 @@ const usersDB = {
   },
 };
 
-export const handleNewUser = async (req: Request, res: Response) => {
+export const signUp = async (req: Request, res: Response) => {
   const { username, password } = req.body;
 
   if (!username || !password) {
