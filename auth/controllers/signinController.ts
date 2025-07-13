@@ -7,6 +7,12 @@ import path from "node:path";
 import dotenv from "dotenv";
 dotenv.config();
 
+//build __dirname variable (in new node versions __dirname is not available in ES modules)
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 const usersDB = {
   users: users,
   setUsers: function (users: any) {
@@ -18,11 +24,15 @@ export const signIn = async (req: Request, res: Response) => {
 
     const { username, password } = req.body;
 
+    console.log("SignIn request received:", { username, password });
+
     if (!username || !password) {
         res.status(400).json({ error: "Username and password are required" });
     }
 
     const foundUser = usersDB.users.find((user: any) => user.username === username);
+
+    console.log("Found user:", foundUser);
 
     if (!foundUser) {
         res.status(401).json({ error: "Unauthorized" });
@@ -31,15 +41,23 @@ export const signIn = async (req: Request, res: Response) => {
     //evaluate password
     const match = await bcrypt.compare(password, foundUser!.password);
 
+    console.log("Password match:", match);
+
     if (match) {
 
         const accessToken = jwt.sign({ username: foundUser!.username }, process.env.ACCESS_TOKEN_SECRET!, { expiresIn: '30s' });
         const refreshToken = jwt.sign({ username: foundUser!.username }, process.env.REFRESH_TOKEN_SECRET!, { expiresIn: '1d' });
 
+        console.log("Access Token:", accessToken);
+        console.log("Refresh Token:", refreshToken);
+
         //saving refresh token with current user
         const otherUsers = usersDB.users.filter((user: any) => user.username !== foundUser!.username);
         const currentUser  = {...foundUser,  refreshToken };
         usersDB.setUsers([...otherUsers, currentUser]);
+
+        console.log("Updated users in DB:", usersDB.users);
+
         await fsPromises.writeFile(path.join(__dirname, "..", "users.json"), JSON.stringify(usersDB.users, null, 2));
         //!saving refresh token with current user
 
